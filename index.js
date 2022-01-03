@@ -1,25 +1,33 @@
 const express = require("express");
 const app = express();
-const leaderboard = require("./leaderboard.json");
+
+const mariadb = require('mariadb');
+const pool = mariadb.createPool({
+     host: 'mariadb', 
+     user:'root', 
+     password: 'password',
+     database: 'leaderboard'
+});
+
+let conn
+const getConn = async () => {
+    console.log("Oueeeeeee");
+    try {
+        conn = await pool.getConnection()
+    
+        let sql = `CREATE TABLE IF NOT EXISTS leaderboard (pseudo VARCHAR(255), time FLOAT)`
+        let result = await conn.query(sql)
+        console.log(result)
+  
+    } catch (error) {
+        throw error
+    }
+} 
+
+getConn()
 
 //Middleware
 app.use(express.json());
-
-app.get("/lb", (req, res) => {
-  console.log("rdv list");
-  res.status(200).json(leaderboard);
-});
-
-app.get('/lb/:id', (req,res) => {
-    const id = parseInt(req.params.id)
-    const player = leaderboard.find(player => player.id === id)
-    res.status(200).json(player)
-})
-
-app.post('/lb', (req,res) => {
-    leaderboard.push(req.body)
-    res.status(200).json(leaderboard)
-})
 
 app.listen(8000, () => {
   console.log("Serveur à l'écoute");
