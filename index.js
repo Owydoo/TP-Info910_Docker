@@ -28,7 +28,7 @@ getConn()
 
 
 app.get('/getScoreBoard', async (req,res) => {
-    let sql = `SELECT * FROM leaderboard`
+    let sql = `SELECT * FROM leaderboard ORDER BY time ASC LIMIT 5`
     let result = await conn.query(sql)
     res.send(result)
 })
