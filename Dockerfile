@@ -2,6 +2,7 @@
 
 FROM node:12.18.1
 ENV NODE_ENV=production
+EXPOSE 8000
 
 WORKDIR /app
 
