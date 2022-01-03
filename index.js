@@ -1,32 +1,26 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
+const leaderboard = require("./leaderboard.json");
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-  }
+//Middleware
+app.use(express.json());
 
-rdv = [{
-    // patient_name : "Tom",
-    date : "02/24/2021 07:06:02 PM"
-},
-{
-    // patient_name : "Hugo",
-    date : "02/09/2021 10:42:27 AM"
-},
-{
-    // patient_name : "Samuel",
-    date : "07/28/2021 03:02:57 AM"
-}]
+app.get("/lb", (req, res) => {
+  console.log("rdv list");
+  res.status(200).json(leaderboard);
+});
 
-app.get('/rdv', (req,res) => {
-    console.log("rdv list");
-    res.send(rdv)
+app.get('/lb/:id', (req,res) => {
+    const id = parseInt(req.params.id)
+    const player = leaderboard.find(player => player.id === id)
+    res.status(200).json(player)
 })
-app.get('/rdv-random', (req,res) => {
-    console.log("rdv random");
-    res.send(rdv[getRandomInt(3)])
+
+app.post('/lb', (req,res) => {
+    leaderboard.push(req.body)
+    res.status(200).json(leaderboard)
 })
 
 app.listen(8000, () => {
-    console.log("Serveur à l'écoute")
-})
+  console.log("Serveur à l'écoute");
+});
