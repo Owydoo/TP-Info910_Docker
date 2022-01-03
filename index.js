@@ -27,6 +27,6 @@ app.get('/rdv-random', (req,res) => {
     res.send(rdv[getRandomInt(3)])
 })
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("Serveur à l'écoute")
 })
