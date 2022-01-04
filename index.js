@@ -14,7 +14,7 @@ app.use(function (req, res, next) {
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', false);
+    res.setHeader('Access-Control-Allow-Credentials', true);
 
     // Pass to next layer of middleware
     next();
@@ -36,10 +36,6 @@ const getConn = async () => {
         let sql = `CREATE TABLE IF NOT EXISTS leaderboard (id MEDIUMINT NOT NULL AUTO_INCREMENT, pseudo VARCHAR(255), time FLOAT, PRIMARY KEY (id))`
         let result = await conn.query(sql)
         console.log(result)
-
-        let sqlAdd = `INSERT INTO leaderboard (pseudo, time) VALUES ('testPseudo','35.5777')`
-        let resultAdd = await conn.query(sqlAdd)
-  
     } catch (error) {
         throw error
     }
